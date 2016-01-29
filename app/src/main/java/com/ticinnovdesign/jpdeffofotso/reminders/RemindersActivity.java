@@ -107,7 +107,7 @@ public class RemindersActivity extends AppCompatActivity {
         //when we click an individual item in the listview
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, final int masterListPosition, long id) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(RemindersActivity.this);
                 ListView modeListView = new ListView(RemindersActivity.this);
                 String[] modes = new String[] { "Edit Reminder", "Delete Reminder" };
@@ -122,14 +122,14 @@ public class RemindersActivity extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //edit reminder
                         if (position == 0) {
-                            int nId = getIdFromPosition(position);
+                            int nId = getIdFromPosition(masterListPosition);
                             Reminder reminder = mDbAdapter.fetchReminderById(nId);
                             fireCustomDialog(reminder);
 //delete reminder
 
 //delete reminder
                         } else {
-                            mDbAdapter.deleteReminderById(getIdFromPosition(position));
+                            mDbAdapter.deleteReminderById(getIdFromPosition(masterListPosition));
                             mCursorAdapter.changeCursor(mDbAdapter.fetchAllReminders());
 
                         }
